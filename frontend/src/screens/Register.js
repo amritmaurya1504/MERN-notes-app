@@ -2,35 +2,20 @@ import React from 'react'
 import { Link, useHistory } from "react-router-dom"
 import { useState } from "react"
 import { Form } from "react-bootstrap"
+import Loading from 'react-fullscreen-loading';
 const Register = () => {
 
     const [name, setName] = useState();
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
-    const [picture, setPicture] = useState(
-        []
-    )
-    const [picUrl, setPicUrl] = useState()
+    const [picUrl, setPicUrl] = useState("https://cdn.pixabay.com/photo/2020/07/14/13/07/icon-5404125_960_720.png")
     const history = useHistory()
+    const [loading , setLoading] = useState(false);
 
     const registerHandler = (e) => {
         e.preventDefault();
-
-        //picture posting
-        const data = new FormData()
-        data.append("file", picture)
-        data.append("upload_preset", "NoteZipper");
-        data.append("cloud_name", "amritrajmaurya")
-        fetch("	https://api.cloudinary.com/v1_1/amritrajmaurya/image/upload", {
-            method: "post",
-            body: data
-        })
-            .then(res => res.json())
-            .then(data => {
-                setPicUrl(data.url)
-            })
-            .catch(err => console.log(err))
-
+        setLoading(true)
+        
         fetch("http://localhost:8000/api/users", {
             method: "post",
             headers: {
@@ -44,11 +29,11 @@ const Register = () => {
                 if (data.error) {
                     alert(data.error)
                 } else {
+                    setLoading(false)
                     alert(data.message)
                     setName("")
                     setEmail("")
                     setPassword("")
-                    setPicture("")
                     history.push("/login")
                 }
             }).catch(err => {
@@ -60,7 +45,7 @@ const Register = () => {
         if (picture.type === "image/jpeg" || picture.type === "image/png") {
             const data = new FormData();
             data.append("file", picture);
-            data.append("upload_preset", "NoteZipper");
+            data.append("upload_preset", "ISOI-HITK");
             data.append("cloud_name", "amritrajmaurya");
             fetch("https://api.cloudinary.com/v1_1/amritrajmaurya/image/upload", {
                 method: "post",
@@ -81,6 +66,7 @@ const Register = () => {
 
     return (
         <div>
+            {loading && <Loading loading background="#2ecc71" loaderColor="#3498db" />}
             <div className="container-lg">
                 <h1 className="display-6 p-2 my-4">Register</h1>
                 <div className="registerDiv">
@@ -118,6 +104,7 @@ const Register = () => {
                     </form>
                 </div>
             </div>
+
         </div>
     )
 }

@@ -3,14 +3,18 @@ import { Link, useHistory } from "react-router-dom"
 import { setUserDetails } from "../actions/index"
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
+import Loading from 'react-fullscreen-loading';
 const Login = () => {
 
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const dispatch = useDispatch();
+    const [loading , setLoading] = useState(false);
+
 
     const loginHandler = (e) => {
         e.preventDefault();
+        setLoading(true)
         fetch("http://localhost:8000/api/users/login", {
             method: "POST",
             headers: {
@@ -23,7 +27,9 @@ const Login = () => {
             .then(data => {
                 if (data.error) {
                     alert(data.error)
+                    setLoading(false)
                 } else {
+                    setLoading(false)
                     alert(data.message)
                     const { _id , name , email , picUrl , timestamps } = data.userLogin
                     const { token } = data
@@ -52,6 +58,7 @@ const Login = () => {
 
     return (
         <div>
+        {loading && <Loading loading background="#2ecc71" loaderColor="#3498db" />}
             <div className="container-lg">
                 <h1 className="display-6 p-2 my-4">Login</h1>
                 <div className="loginDiv">

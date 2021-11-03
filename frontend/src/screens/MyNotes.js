@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Accordion, Card } from 'react-bootstrap'
 import FlipMotion from "react-flip-motion";
+import { setUserDetails } from "../actions/index"
+import { useDispatch, useSelector } from 'react-redux'
+import ReactLoading from 'react-loading';
 const MyNotes = ({ search }) => {
     const [notesList, setNotesList] = useState([])
     const history = useHistory();
     const data = JSON.parse(localStorage.getItem("userInfo"));
-
+    const dispatch = useDispatch()
+    const [loading, setLoading] = useState(false);
     useEffect(() => {
         const usersData = JSON.parse(localStorage.getItem("userInfo"))
         if (usersData) {
@@ -19,8 +23,8 @@ const MyNotes = ({ search }) => {
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure")) {
             fetch(`http://localhost:8000/api/notes/${id}`, {
-            method: "delete",
-            headers: {
+                method: "delete",
+                headers: {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
                 }
             }).then(res => res.json())
@@ -33,6 +37,7 @@ const MyNotes = ({ search }) => {
 
 
     useEffect(() => {
+        setLoading(true)
         fetch("http://localhost:8000/api/notes", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -40,6 +45,7 @@ const MyNotes = ({ search }) => {
         }).then(res => res.json())
             .then(note => {
                 setNotesList(note);
+                setLoading(false)
             }).catch(err => console.log(err))
     }, [], [deleteHandler])
 
@@ -50,10 +56,11 @@ const MyNotes = ({ search }) => {
             <div className="container-lg">
                 <h1 className="display-6 p-2 my-4">Welcome Back {!data ? "Jhon" : data.name} </h1>
                 <Link to="/createnote">
-                    <button className="btn btn-primary">Create New Note</button>
+                    <button className="btn btn-primary mx-4">Create New Note</button>
                 </Link>
 
                 <div className="cards m-4">
+                    {loading && <ReactLoading className="m-auto" type="bars" color="#fff" height='120px' width='120px' />}
                     <FlipMotion>
 
                         {
@@ -67,12 +74,12 @@ const MyNotes = ({ search }) => {
                                                 display: "flex",
                                                 alignItems: "center",
                                                 justifyContent: "space-between",
-                                                cursor : "pointer"
+                                                cursor: "pointer"
                                             }} className="bg-primary text-white">
                                                 <Accordion.Toggle as={Card.Text} variant="link" eventKey="0" >{note.title}</Accordion.Toggle>
                                                 <div className="button">
                                                     <div class="btn-group">
-                                                        
+
                                                         <Link to={`/note/${note._id}`} class="myBtn btn btn-primary md-p-0 bg-warning text-white">Edit</Link>
                                                         <a class="myBtn btn btn-primary md-p-0 bg-danger text-white" onClick={() => deleteHandler(note._id)}>Delete</a>
                                                     </div>
@@ -86,7 +93,7 @@ const MyNotes = ({ search }) => {
                                                             </h6>
                                                             {note.content}
                                                         </p>
-                                                        <footer className="blockquote-footer">
+                                                        <footer className="blockquote-footer my-2">
                                                             Created on  <cite title="Source Title">{note.timestamps}</cite>
                                                         </footer>
                                                     </blockquote>

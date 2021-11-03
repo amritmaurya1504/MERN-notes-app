@@ -1,19 +1,20 @@
 import React from 'react'
 import { useState } from 'react';
 import { useHistory } from 'react-router';
-
+import Loading from 'react-fullscreen-loading';
 
 const CreateNotes = () => {
     const history = useHistory()
     const [title , setTitle] = useState();
     const [content , setContent] = useState();
     const [category , setCategory] = useState();
+    const [loading , setLoading] = useState(false);
 
     const data = JSON.parse(localStorage.getItem("userInfo"));
 
     const createNote = (e) => {
         e.preventDefault();
-
+        setLoading(true)
         fetch("http://localhost:8000/api/notes/create", {
             method: "post",
             headers: {
@@ -28,6 +29,7 @@ const CreateNotes = () => {
                 if (data.error) {
                     console.log(data.error)
                 } else {
+                    setLoading(false)
                     console.log(data)
                     history.push("/mynotes")
                 }
@@ -39,6 +41,7 @@ const CreateNotes = () => {
 
     return (
         <div className="container-lg">
+        {loading && <Loading loading background="#2ecc71" loaderColor="#3498db" />}
             <h1 className="display-6 p-2 my-4">Welcome Back {data.name} </h1>
             <div className="card m-4">
                 <div class="card">

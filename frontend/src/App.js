@@ -15,12 +15,17 @@ import "./App.css"
 import CreateNotes from "./screens/CreateNotes";
 import SingleNote from "./screens/SingleNote";
 import Profile from "./screens/Profile";
-
+import { setUserDetails } from "../src/actions/index"
+import { useDispatch, useSelector } from 'react-redux'
 
 function App() {
-
   const [search , setSearch] = useState();
   console.log(search);
+  const dispatch = useDispatch()
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("userInfo"));
+    dispatch(setUserDetails(user));
+  })
 
   return (
     <div>

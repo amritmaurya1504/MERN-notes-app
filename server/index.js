@@ -9,19 +9,19 @@ const app = express();
 
 dotenv.config()
 connectMongo()
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 
 
 app.use(cors());
 app.use(express.json())
 
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Hello Buddy" });
+})
 
 app.use("/api/users" , userRoute);
 app.use("/api/notes" , noteRoute);
 
-app.get("/", (req, res) => {
-    res.status(200).json({ message: "Hello Buddy" });
-})
 
 app.get("/api/notes" , (req,res) => {
     res.send(notes);

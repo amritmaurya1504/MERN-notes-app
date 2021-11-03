@@ -6,7 +6,7 @@ dotenv.config()
 
 const connectMongo = async () => {
     try {
-        const conn = await mongoose.connect("mongodb://localhost:27017/myNotes" , {
+        const conn = await mongoose.connect(process.env.MONGO_URL, {
             useCreateIndex: true,
             useNewUrlParser: true,
             useUnifiedTopology: true,
