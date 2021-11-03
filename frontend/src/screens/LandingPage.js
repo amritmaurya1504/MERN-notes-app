@@ -22,7 +22,7 @@ const LandingPage = () => {
             <Container>
                 <Row>
                     <div className="intro-text text-center my-5">
-                        <h1 className="display-3 mt-5 mb-5">Welcome to Notes App</h1>
+                        <h1 className="display-3 mt-5 mb-5">Welcome to weNote App</h1>
                         <p className="h6 lead">One safe place for all your notes.</p>
 
                     </div>
