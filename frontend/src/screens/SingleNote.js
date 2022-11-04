@@ -16,7 +16,7 @@ const SingleNote = () => {
     const data = JSON.parse(localStorage.getItem("userInfo"));
 
     useEffect(()=> {
-        fetch(`https://wenote-app-backend.herokuapp.com/api/notes/${id}`, {
+        fetch(`/api/notes/${id}`, {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             }
@@ -31,7 +31,7 @@ const SingleNote = () => {
     const updateNote = (e) =>{
         e.preventDefault();
         
-        fetch(`https://wenote-app-backend.herokuapp.com/api/notes/${id}`, {
+        fetch(`/api/notes/${id}`, {
             method: "put",
             headers: {
                 "Content-Type": "application/json",

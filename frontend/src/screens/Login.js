@@ -15,7 +15,7 @@ const Login = () => {
     const loginHandler = (e) => {
         e.preventDefault();
         setLoading(true)
-        fetch("https://wenote-app-backend.herokuapp.com/api/users/login", {
+        fetch("/api/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

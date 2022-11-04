@@ -16,7 +16,7 @@ const Register = () => {
         e.preventDefault();
         setLoading(true)
         
-        fetch("https://wenote-app-backend.herokuapp.com/api/users", {
+        fetch("/api/users", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"

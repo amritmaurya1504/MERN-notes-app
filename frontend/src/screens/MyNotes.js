@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import { Accordion, Card } from 'react-bootstrap'
-import FlipMotion from "react-flip-motion";
+// import FlipMotion from "react-flip-motion";
 import { setUserDetails } from "../actions/index"
 import { useDispatch, useSelector } from 'react-redux'
 import ReactLoading from 'react-loading';
@@ -22,7 +22,7 @@ const MyNotes = ({ search }) => {
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure")) {
-            fetch(`https://wenote-app-backend.herokuapp.com/api/notes/${id}`, {
+            fetch(`/api/notes/${id}`, {
                 method: "delete",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -38,7 +38,7 @@ const MyNotes = ({ search }) => {
 
     useEffect(() => {
         setLoading(true)
-        fetch("https://wenote-app-backend.herokuapp.com/api/notes", {
+        fetch("/api/notes", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             }
@@ -61,7 +61,7 @@ const MyNotes = ({ search }) => {
 
                 <div className="cards m-4">
                     {loading && <ReactLoading className="m-auto" type="bars" color="#fff" height='120px' width='120px' />}
-                    <FlipMotion>
+                    {/* <FlipMotion> */}
 
                         {
                             notesList?.map((note) => {
@@ -106,7 +106,7 @@ const MyNotes = ({ search }) => {
                             }).reverse()
                         }
 
-                    </FlipMotion>
+                    {/* </FlipMotion> */}
                 </div>
             </div>
 

@@ -15,7 +15,7 @@ const CreateNotes = () => {
     const createNote = (e) => {
         e.preventDefault();
         setLoading(true)
-        fetch("https://wenote-app-backend.herokuapp.com/api/notes/create", {
+        fetch("/api/notes/create", {
             method: "post",
             headers: {
                 "Content-Type": "application/json",
