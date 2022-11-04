@@ -22,7 +22,7 @@ const MyNotes = ({ search }) => {
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure")) {
-            fetch(`http://localhost:8000/api/notes/${id}`, {
+            fetch(`https://wenote-app-backend.herokuapp.com/api/notes/${id}`, {
                 method: "delete",
                 headers: {
                     "Authorization": "Bearer " + localStorage.getItem("jwt")
@@ -38,7 +38,7 @@ const MyNotes = ({ search }) => {
 
     useEffect(() => {
         setLoading(true)
-        fetch("http://localhost:8000/api/notes", {
+        fetch("https://wenote-app-backend.herokuapp.com/api/notes", {
             headers: {
                 "Authorization": "Bearer " + localStorage.getItem("jwt")
             }
@@ -64,7 +64,7 @@ const MyNotes = ({ search }) => {
                     <FlipMotion>
 
                         {
-                            notesList.map((note) => {
+                            notesList?.map((note) => {
                                 return (
                                     <Accordion key={note._id}>
 
